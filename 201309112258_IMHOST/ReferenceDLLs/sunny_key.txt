@@ -1,0 +1,9 @@
+ii37y237ey2u3te2ur2!@#RTHY^&*fghfth*(DFGwydljI&*9&THYhrtGWER87r0
+immsg!!@#!@$#$^$GTRGHTYHU&IAppDomainSetup&*YJTlskdjfsdkjxc@#0607
+
+
+SunnySqlDBString
+
+
+
+Data Source=192.168.1.123;Initial Catalog=ESSO_MOBILE;User Id=sa;Password=p@55w0rd
