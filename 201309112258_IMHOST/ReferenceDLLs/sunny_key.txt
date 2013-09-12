@@ -3,7 +3,8 @@ immsg!!@#!@$#$^$GTRGHTYHU&IAppDomainSetup&*YJTlskdjfsdkjxc@#0607
 
 
 SunnySqlDBString
+sLeysiV/r+dcoq19ztaUfF7KmzmN/CU+JRPaVSu0PSQ=
 
 
-
-Data Source=192.168.1.123;Initial Catalog=ESSO_MOBILE;User Id=sa;Password=p@55w0rd
+Data Source=.;Initial Catalog=IRREGULAR;User Id=temp;Password=temp
+B4O7TEDM1WxN3gTd7OXzyBQ5CMsZlYfhONifpgc5fhoS6E2p9mzo+2bNCwc6cMW49wGFdVFQ6aO7UE8KrWP17CrJw2ToRFNNYm4qUl0CR3o=
