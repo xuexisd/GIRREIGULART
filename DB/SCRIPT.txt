@@ -1,0 +1,200 @@
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'T_USER'))
+DROP TABLE T_USER
+GO
+
+CREATE TABLE [dbo].[T_USER](
+	[USER_ID] [uniqueidentifier] NOT NULL,
+	[USER_PHONE] [nvarchar](20) NOT NULL,
+	[USER_KEY] [nvarchar](50) NULL,
+	[USER_EMAIL] [nvarchar](50) NULL,
+	[USER_PWD] [nvarchar](500) NOT NULL,
+	[USER_DEVICE] [nvarchar](100) NOT NULL,
+	[UPDATE_VERSION] [int] NOT NULL,
+	[CREATED_BY] [nvarchar](50) NOT NULL,
+	[CREATED_TIME] [datetime] NOT NULL,
+	[LAST_UPDATED_BY] [nvarchar](50) NOT NULL,
+	[LAST_UPDATED_TIME] [datetime] NOT NULL,
+ CONSTRAINT [PK_T_USER] PRIMARY KEY CLUSTERED 
+(
+	[USER_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+------------------------------------------------------------
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_I'))
+DROP PROCEDURE P_USER_I
+GO
+-- =============================================
+-- Author:		Sunny
+-- Create date: 2013/9/12 23:18:09
+-- Description:	Insert
+-- =============================================
+
+CREATE PROCEDURE P_USER_I
+(
+	@USER_ID			uniqueidentifier,
+	@USER_PHONE			nvarchar(20),
+	@USER_KEY			nvarchar(50),
+	@USER_EMAIL			nvarchar(50),
+	@USER_PWD			nvarchar(500),
+	@USER_DEVICE			nvarchar(100)
+)
+AS 
+ BEGIN 
+ INSERT INTO T_USER(
+	[USER_ID],
+	USER_PHONE,
+	USER_KEY,
+	USER_EMAIL,
+	USER_PWD,
+	USER_DEVICE,
+	UPDATE_VERSION,
+	CREATED_BY,
+	CREATED_TIME,
+	LAST_UPDATED_BY,
+	LAST_UPDATED_TIME)
+VALUES(
+	@USER_ID,
+	@USER_PHONE,
+	@USER_KEY,
+	@USER_EMAIL,
+	@USER_PWD,
+	@USER_DEVICE,
+	1,
+	@USER_ID,
+	GETDATE(),
+	@USER_ID,
+	GETDATE())
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S'))
+DROP PROCEDURE P_USER_S
+GO
+-- =============================================
+-- Author:		Sunny
+-- Create date: 2013/9/12 23:18:09
+-- Description:	Select
+-- =============================================
+
+CREATE PROCEDURE P_USER_S
+AS 
+ BEGIN 
+	SELECT *
+	FROM T_USER
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_U'))
+DROP PROCEDURE P_USER_U
+GO
+-- =============================================
+-- Author:		Sunny
+-- Create date: 2013/9/12 23:18:09
+-- Description:	Updata
+-- =============================================
+
+CREATE PROCEDURE P_USER_U
+(
+	@USER_ID			uniqueidentifier,
+	@USER_PHONE			nvarchar(20),
+	@USER_KEY			nvarchar(50),
+	@USER_EMAIL			nvarchar(50),
+	@USER_PWD			nvarchar(500),
+	@USER_DEVICE			nvarchar(100),
+	@LAST_UPDATED_BY			nvarchar(50)
+)
+AS 
+ BEGIN 
+ UPDATE T_USER SET 
+	USER_PHONE=@USER_PHONE,
+	USER_KEY=@USER_KEY,
+	USER_EMAIL=@USER_EMAIL,
+	USER_PWD=@USER_PWD,
+	USER_DEVICE=@USER_DEVICE,
+	UPDATE_VERSION=((SELECT UPDATE_VERSION FROM T_USER WHERE [USER_ID]=@USER_ID) + 1),
+	LAST_UPDATED_BY=@LAST_UPDATED_BY,
+	LAST_UPDATED_TIME=GETDATE()
+WHERE [USER_ID]=@USER_ID
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_BY_ID'))
+DROP PROCEDURE P_USER_S_BY_ID
+GO
+-- =============================================
+-- Author:		Sunny
+-- Create date: 2013/9/12 23:18:09
+-- Description:	Select
+-- =============================================
+
+CREATE PROCEDURE P_USER_S_BY_ID
+(
+	@USER_ID			uniqueidentifier
+)
+AS 
+ BEGIN 
+	SELECT *
+	FROM T_USER
+	WHERE [USER_ID] = @USER_ID
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_LOGIN'))
+DROP PROCEDURE P_USER_S_LOGIN
+GO
+-- =============================================
+-- Author:		Sunny
+-- Create date: 2013/9/12 23:18:09
+-- Description:	Select
+-- =============================================
+
+CREATE PROCEDURE P_USER_S_LOGIN
+(
+	@USER_PHONE			nvarchar(20),
+	@USER_KEY			nvarchar(50),
+	@USER_EMAIL			nvarchar(50),
+	@USER_PWD			nvarchar(500)
+)
+AS 
+ BEGIN 
+	SELECT *
+	FROM T_USER
+	WHERE (USER_PHONE = @USER_PHONE OR USER_KEY = @USER_KEY OR USER_EMAIL = @USER_EMAIL)
+		AND USER_PWD = @USER_PWD
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_BY_USER_INFO'))
+DROP PROCEDURE P_USER_S_BY_USER_INFO
+GO
+-- =============================================
+-- Author:		Sunny
+-- Create date: 2013/9/12 23:18:09
+-- Description:	Select
+-- =============================================
+
+CREATE PROCEDURE P_USER_S_BY_USER_INFO
+(
+	@USER_PHONE			nvarchar(20),
+	@USER_KEY			nvarchar(50),
+	@USER_EMAIL			nvarchar(50)
+)
+AS 
+ BEGIN 
+	SELECT *
+	FROM T_USER
+	WHERE USER_PHONE = @USER_PHONE OR USER_KEY = @USER_KEY OR USER_EMAIL = @USER_EMAIL
+END
+GO
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
