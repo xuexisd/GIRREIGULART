@@ -183,11 +183,11 @@ namespace SQLite
 
         public void EnableLoadExtension(int onoff)
         {
-            SQLite3.Result r = SQLite3.EnableLoadExtension(Handle, onoff);
-			if (r != SQLite3.Result.OK) {
-				string msg = SQLite3.GetErrmsg (Handle);
-				throw SQLiteException.New (r, msg);
-			}
+            //SQLite3.Result r = SQLite3.EnableLoadExtension(Handle, onoff);
+            //if (r != SQLite3.Result.OK) {
+            //    string msg = SQLite3.GetErrmsg (Handle);
+            //    throw SQLiteException.New (r, msg);
+            //}
         }
 
 		static byte[] GetNullTerminatedUtf8 (string s)

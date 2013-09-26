@@ -13,6 +13,7 @@ namespace IMMODEL
         public string USER_KEY { get; set; }
         public string USER_EMAIL { get; set; }
         public string USER_PWD { get; set; }
-        public string USER_DEVICE { get; set; }
+        public string USER_DEVICE_ID { get; set; }
+        public string USER_DEVICE_NAME { get; set; }
     }
 }
