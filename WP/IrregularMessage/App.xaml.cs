@@ -7,6 +7,11 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IrregularMessage.Resources;
+using System.IO.IsolatedStorage;
+using System.IO;
+using Windows.Storage;
+using IrregularMessage.Common;
+using SQLite;
 
 namespace IrregularMessage
 {
@@ -54,7 +59,7 @@ namespace IrregularMessage
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
+            InitializeApp();
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -217,6 +222,23 @@ namespace IrregularMessage
                 }
 
                 throw;
+            }
+        }
+
+        public void InitializeApp()
+        {
+            IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForApplication();
+            if (!appStorage.DirectoryExists(Path.Combine(ApplicationData.Current.LocalFolder.Path,CommonCenter.PhoneCommonFolder)))
+                appStorage.CreateDirectory(CommonCenter.PhoneCommonFolder);
+
+            //  check if database exists and create it if needed
+            string dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, CommonCenter.PhoneCommonFolder, CommonCenter.DBName);
+            if (!CommonCenter.FileExists(dbPath))
+            {
+                using (var db = new SQLiteConnection(dbPath))
+                {
+                    db.CreateTable<Model.LoginUserInfoModel>();
+                }
             }
         }
     }
