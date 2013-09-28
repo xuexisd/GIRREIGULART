@@ -7,7 +7,12 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:IrregularMessage" x:Key="LocalizedStrings"/>
+        <!--<local:LocalizedStrings xmlns:local="clr-namespace:IrregularMessage" x:Key="LocalizedStrings"/>-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/AllStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
