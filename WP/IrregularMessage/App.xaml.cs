@@ -12,6 +12,8 @@ using System.IO;
 using Windows.Storage;
 using IrregularMessage.Common;
 using SQLite;
+using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace IrregularMessage
 {
@@ -59,6 +61,7 @@ namespace IrregularMessage
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
+
             InitializeApp();
         }
 
@@ -227,18 +230,22 @@ namespace IrregularMessage
 
         public void InitializeApp()
         {
-            IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForApplication();
-            if (!appStorage.DirectoryExists(Path.Combine(ApplicationData.Current.LocalFolder.Path,CommonCenter.PhoneCommonFolder)))
-                appStorage.CreateDirectory(CommonCenter.PhoneCommonFolder);
+            CommonCenter.GetCurrentRootFolders(true);
+            if (!CommonCenter.CurrentRootFolders.Contains(CommonCenter.PhoneCommonFolder))
+            {
+                ApplicationData.Current.LocalFolder.CreateFolderAsync(CommonCenter.PhoneCommonFolder).AsTask().GetAwaiter();
+                CommonCenter.GetCurrentRootFolders(true);
+            }
 
             //  check if database exists and create it if needed
-            string dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, CommonCenter.PhoneCommonFolder, CommonCenter.DBName);
-            if (!CommonCenter.FileExists(dbPath))
+            CommonCenter.GetPhoneCommonFiles(true);
+            if (CommonCenter.PhoneCommonFiles.Count == 0 || !CommonCenter.PhoneCommonFiles.Contains(CommonCenter.DBName))
             {
-                using (var db = new SQLiteConnection(dbPath))
+                using (var db = new SQLiteConnection(CommonCenter.DBPath))
                 {
                     db.CreateTable<Model.LoginUserInfoModel>();
                 }
+                CommonCenter.GetPhoneCommonFiles(true);
             }
         }
     }

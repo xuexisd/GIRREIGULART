@@ -13,29 +13,37 @@ namespace IrregularMessage.Common
     {
         public const string PhoneCommonFolder = @"PhoneCommon";
         public const string DBName = @"db.sqlite3";
-        public string DBPath
+        public static string DBPath
         {
             get { return Path.Combine(ApplicationData.Current.LocalFolder.Path, PhoneCommonFolder, DBName); }
         }
-        
+        public static List<string> CurrentRootFolders;
+        public static List<string> PhoneCommonFiles;
 
-        public static bool FileExists(string filePath)
+        public static void GetCurrentRootFolders(bool needRefresh)
         {
-            var result = false;
-            try
+            if (CurrentRootFolders == null || needRefresh)
             {
-                if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(filePath))
-                    result = true;
+                CurrentRootFolders = new List<string>();
+                IReadOnlyList<StorageFolder> list = ApplicationData.Current.LocalFolder.GetFoldersAsync().AsTask().GetAwaiter().GetResult();
+                foreach (StorageFolder item in list)
+                {
+                    CurrentRootFolders.Add(item.Name);
+                }
             }
-            catch
-            {
-            }
-            return result;
         }
 
-        public static IsolatedStorageFile CurrentStorageFile()
+        public static void GetPhoneCommonFiles(bool needRefresh)
         {
-            return IsolatedStorageFile.GetUserStoreForApplication();
+            if (PhoneCommonFiles == null || needRefresh)
+            {
+                PhoneCommonFiles = new List<string>();
+                IReadOnlyList<StorageFile> list = ApplicationData.Current.LocalFolder.GetFolderAsync(PhoneCommonFolder).AsTask().GetAwaiter().GetResult().GetFilesAsync().AsTask().GetAwaiter().GetResult();
+                foreach (StorageFile item in list)
+                {
+                    PhoneCommonFiles.Add(item.Name);
+                }
+            }
         }
     }
 }
