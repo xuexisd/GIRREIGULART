@@ -8,6 +8,10 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IrregularMessage.Resources;
+using SQLite;
+using IrregularMessage.Common;
+using IrregularMessage.Model;
+using Microsoft.Phone.Info;
 
 namespace IrregularMessage
 {
@@ -21,6 +25,15 @@ namespace IrregularMessage
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
 
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            //移除程序初始化的判断页 MainPage.xaml
+            if (this.NavigationService.CanGoBack)
+                this.NavigationService.RemoveBackEntry();
         }
 
         // Sample code for building a localized ApplicationBar

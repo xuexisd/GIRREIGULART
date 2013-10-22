@@ -13,7 +13,7 @@ namespace IrregularMessage.Model
         public string USER_ID { get; set; }
 
         [SQLite.MaxLength(20)]
-        public string USER_PHONE { get; set; }
+        public string USER_PHONE_NUMBER { get; set; }
 
         [SQLite.MaxLength(50)]
         public string USER_KEY { get; set; }

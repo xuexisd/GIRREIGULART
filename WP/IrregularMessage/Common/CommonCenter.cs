@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using IrregularMessage.Model;
 
 namespace IrregularMessage.Common
 {
@@ -13,12 +14,17 @@ namespace IrregularMessage.Common
     {
         public const string PhoneCommonFolder = @"PhoneCommon";
         public const string DBName = @"db.sqlite3";
+        public const string GlobalDateTimeFormat = @"yyyy-MM-dd HH:mm:ss";
+
+        public const string Table_T_USER_LOGIN = @"T_USER_LOGIN";
+
         public static string DBPath
         {
             get { return Path.Combine(ApplicationData.Current.LocalFolder.Path, PhoneCommonFolder, DBName); }
         }
         public static List<string> CurrentRootFolders;
         public static List<string> PhoneCommonFiles;
+        public static LoginUserInfoModel LoginUserInformationModel;
 
         public static void GetCurrentRootFolders(bool needRefresh)
         {
