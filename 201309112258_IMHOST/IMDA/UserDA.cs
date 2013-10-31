@@ -52,5 +52,41 @@ namespace IMDA
             #endregion
             return null;
         }
+
+        public UserModel GetUserByCriteriaKeyByUserPWD(string CriteriaKey, string UserPWD)
+        {
+            string errorMsg = "";
+            UserModel model = new UserModel();
+            try
+            {
+                SqlHelper helper = new SqlHelper();
+                DataSet ds = new DataSet();
+                ds.Tables.Add("GetUserByCriteriaKeyByUserPWD");
+                helper.FillDataset("P_USER_S_LOGIN", ds.Tables["GetUserByCriteriaKeyByUserPWD"], CriteriaKey, UserPWD);
+                if (ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows.Count == 1 && ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_ID"] != null)
+                {
+                    model.USER_ID = Guid.Parse(ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_ID"].ToString());
+                    model.USER_PHONE_NUMBER = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_PHONE_NUMBER"].ToString();
+                    model.USER_KEY = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_KEY"].ToString();
+                    model.USER_EMAIL = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_EMAIL"].ToString();
+                    model.USER_PWD = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_PWD"].ToString();
+                    model.USER_DEVICE_ID = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_DEVICE_ID"].ToString();
+                    model.USER_DEVICE_NAME = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["USER_DEVICE_NAME"].ToString();
+                    model.UPDATE_VERSION = int.Parse(ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["UPDATE_VERSION"].ToString());
+                    model.CREATED_BY = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["CREATED_BY"].ToString();
+                    model.CREATED_TIME = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["CREATED_TIME"].ToString();
+                    model.LAST_UPDATED_BY = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["LAST_UPDATED_BY"].ToString();
+                    model.LAST_UPDATED_TIME = ds.Tables["GetUserByCriteriaKeyByUserPWD"].Rows[0]["LAST_UPDATED_TIME"].ToString();
+                }
+                else
+                    model = null;
+            }
+            catch (Exception ex)
+            {
+                CommonHelper.LogException(new List<string>() { "[Date]--->" + DateTime.Now, "[Message]--->" + ex.Message, "[StackTrace]--->" + ex.StackTrace, CommonHelper.LogLine });
+                model.ERROR_MSG = ex.Message;
+            }
+            return model;
+        }
     }
 }

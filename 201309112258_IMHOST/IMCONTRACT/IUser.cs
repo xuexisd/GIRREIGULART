@@ -21,5 +21,10 @@ namespace IMCONTRACT
         //[WebInvoke(UriTemplate = "User/RegisterUser", Method = "POST"
         //   , BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         //UserModel RegisterUser(UserModel user);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "User/GetUserByCriteriaKeyByUserPWD?CriteriaKey={CriteriaKey}&UserPWD={UserPWD}", BodyStyle = WebMessageBodyStyle.Bare
+            , ResponseFormat = WebMessageFormat.Json)]
+        UserModel GetUserByCriteriaKeyByUserPWD(string CriteriaKey, string UserPWD);
     }
 }
