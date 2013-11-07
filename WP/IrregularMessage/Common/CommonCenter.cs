@@ -22,6 +22,8 @@ namespace IrregularMessage.Common
         {
             get { return Path.Combine(ApplicationData.Current.LocalFolder.Path, PhoneCommonFolder, DBName); }
         }
+        private static string SunnySecurityA1 { get { return @"GIU384KRJ43092REI12LK8GULARTLKJU"; } }
+        private static string SunnySecurityA2 { get { return @"KLA13L0OKDUWYDLD"; } }
         public static List<string> CurrentRootFolders;
         public static List<string> PhoneCommonFiles;
         public static LoginUserInfoModel LoginUserInformationModel;
@@ -50,6 +52,16 @@ namespace IrregularMessage.Common
                     PhoneCommonFiles.Add(item.Name);
                 }
             }
+        }
+
+        public static string EncryptString_Aes(string plainText)
+        {
+            return SymmetricMethod.EncryptString_Aes(plainText, SunnySecurityA1, SunnySecurityA2);
+        }
+
+        public static string DecryptString_Aes(string cipherText)
+        {
+            return SymmetricMethod.DecryptString_Aes(cipherText, SunnySecurityA1, SunnySecurityA2);
         }
     }
 }
