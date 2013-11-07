@@ -55,7 +55,6 @@ namespace IMDA
 
         public UserModel GetUserByCriteriaKeyByUserPWD(string CriteriaKey, string UserPWD)
         {
-            string errorMsg = "";
             UserModel model = new UserModel();
             try
             {

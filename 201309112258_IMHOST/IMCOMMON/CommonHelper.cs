@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sunny.Common.Security;
 
 namespace IMCOMMON
 {
@@ -21,6 +22,16 @@ namespace IMCOMMON
                 File.Create(fullFilePath).Close();
             }
             File.AppendAllLines(fullFilePath, exceptionContent, UTF8Encoding.UTF8);
+        }
+
+        public static string EncryptString_Aes(string plainText)
+        {
+            return SymmetricMethod.EncryptStringToBytes_Aes(plainText, ConfigurationManager.AppSettings["SunnySecurityA1"].ToString(), ConfigurationManager.AppSettings["SunnySecurityA2"].ToString());
+        }
+
+        public static string DecryptString_Aes(string cipherText)
+        {
+            return SymmetricMethod.DecryptStringFromBytes_Aes(cipherText, ConfigurationManager.AppSettings["SunnySecurityA1"].ToString(), ConfigurationManager.AppSettings["SunnySecurityA2"].ToString());
         }
     }
 }
