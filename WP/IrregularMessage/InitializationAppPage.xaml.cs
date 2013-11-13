@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using SQLite;
 using IrregularMessage.Common;
 using IrregularMessage.Model;
+using RestSharp;
 
 namespace IrregularMessage
 {
@@ -27,6 +28,19 @@ namespace IrregularMessage
             using (var db = new SQLiteConnection(CommonCenter.DBPath))
             {
                 LoginUserInfoModel userModel = db.Query<LoginUserInfoModel>(string.Format("SELECT * FROM {0}", CommonCenter.Table_T_USER_LOGIN)).FirstOrDefault();
+
+                //string temp = "";
+                //RestClient client = new RestClient(CommonCenter.BaseUrlUser);
+                //RestRequest request = new RestRequest(@"user/getuserbycriteriakeybyuserpwd?criteriakey=18888888888&userpwd=123456", Method.GET);
+                //request.AddUrlSegment("criteriakey", "18888888888");
+                //request.AddUrlSegment("userpwd", "123456");
+
+                //client.ExecuteAsync(request
+                //    , (a) =>
+                //    {
+                //        temp = a.Content;
+                //    });
+
                 if (userModel != null)
                 {
                     CommonCenter.LoginUserInformationModel = userModel;

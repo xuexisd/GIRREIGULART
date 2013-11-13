@@ -26,12 +26,12 @@ namespace IMCOMMON
 
         public static string EncryptString_Aes(string plainText)
         {
-            return SymmetricMethod.EncryptStringToBytes_Aes(plainText, ConfigurationManager.AppSettings["SunnySecurityA1"].ToString(), ConfigurationManager.AppSettings["SunnySecurityA2"].ToString());
+            return SymmetricMethod.EncryptString_Aes(plainText, ConfigurationManager.AppSettings["SunnySecurityA1"].ToString(), ConfigurationManager.AppSettings["SunnySecurityA2"].ToString());
         }
 
         public static string DecryptString_Aes(string cipherText)
         {
-            return SymmetricMethod.DecryptStringFromBytes_Aes(cipherText, ConfigurationManager.AppSettings["SunnySecurityA1"].ToString(), ConfigurationManager.AppSettings["SunnySecurityA2"].ToString());
+            return SymmetricMethod.DecryptString_Aes(cipherText, ConfigurationManager.AppSettings["SunnySecurityA1"].ToString(), ConfigurationManager.AppSettings["SunnySecurityA2"].ToString());
         }
     }
 }

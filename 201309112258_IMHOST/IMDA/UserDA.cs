@@ -87,5 +87,10 @@ namespace IMDA
             }
             return model;
         }
+
+        public UserModel GetServerDateTime()
+        {
+            return (new UserModel(){CREATED_TIME = DateTime.Now.ToString()});
+        }
     }
 }

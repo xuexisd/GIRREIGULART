@@ -16,6 +16,10 @@ namespace IrregularMessage.Common
         public const string DBName = @"db.sqlite3";
         public const string GlobalDateTimeFormat = @"yyyy-MM-dd HH:mm:ss";
 
+        //NEED CHANGE
+        public const string BaseServerUrl = @"http://192.168.1.111/IMHOST/";
+        public static string BaseUrlUser { get { return string.Format(@"{0}User.svc", BaseServerUrl); } }
+
         public const string Table_T_USER_LOGIN = @"T_USER_LOGIN";
 
         public static string DBPath

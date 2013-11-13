@@ -26,5 +26,10 @@ namespace IMCONTRACT
         [WebGet(UriTemplate = "User/GetUserByCriteriaKeyByUserPWD?CriteriaKey={CriteriaKey}&UserPWD={UserPWD}", BodyStyle = WebMessageBodyStyle.Bare
             , ResponseFormat = WebMessageFormat.Json)]
         UserModel GetUserByCriteriaKeyByUserPWD(string CriteriaKey, string UserPWD);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "User/GetServerDateTime", BodyStyle = WebMessageBodyStyle.Bare
+            , ResponseFormat = WebMessageFormat.Json)]
+        UserModel GetServerDateTime();
     }
 }

@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using RestSharp;
+using IrregularMessage.Common;
 
 namespace IrregularMessage
 {
@@ -15,6 +17,18 @@ namespace IrregularMessage
         public LoginPage()
         {
             InitializeComponent();
+
+            RestClient client = new RestClient(CommonCenter.BaseUrlUser);
+            RestRequest request = new RestRequest(@"/user/getuserbycriteriakeybyuserpwd?criteriakey={criteriakey}&userpwd={userpwd}", Method.GET);
+            request.AddUrlSegment("criteriakey", "18888888888");
+            request.AddUrlSegment("userpwd", "123456");
+            
+            client.ExecuteAsync(request
+                , (a) =>
+                {
+                    MessageBox.Show(a.Content);
+                    MessageBox.Show("test");
+                });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
