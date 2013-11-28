@@ -18,17 +18,17 @@ namespace IrregularMessage
         {
             InitializeComponent();
 
-            RestClient client = new RestClient(CommonCenter.BaseUrlUser);
-            RestRequest request = new RestRequest(@"/user/getuserbycriteriakeybyuserpwd?criteriakey={criteriakey}&userpwd={userpwd}", Method.GET);
-            request.AddUrlSegment("criteriakey", "18888888888");
-            request.AddUrlSegment("userpwd", "123456");
+            //RestClient client = new RestClient(CommonCenter.BaseUrlUser);
+            //RestRequest request = new RestRequest(@"/user/getuserbycriteriakeybyuserpwd?criteriakey={criteriakey}&userpwd={userpwd}", Method.GET);
+            //request.AddUrlSegment("criteriakey", "18888888888");
+            //request.AddUrlSegment("userpwd", "123456");
             
-            client.ExecuteAsync(request
-                , (a) =>
-                {
-                    MessageBox.Show(a.Content);
-                    MessageBox.Show("test");
-                });
+            //client.ExecuteAsync(request
+            //    , (a) =>
+            //    {
+            //        MessageBox.Show(a.Content);
+            //        MessageBox.Show("test");
+            //    });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -38,6 +38,13 @@ namespace IrregularMessage
             //移除程序初始化的判断页 MainPage.xaml
             if (this.NavigationService.CanGoBack)
                 this.NavigationService.RemoveBackEntry();
+        }
+
+        private void btnLoginOrRegister_Click(object sender, EventArgs e)
+        {
+            //0: 登陆
+            //1: 注册
+            MessageBox.Show(pivotLoginOrRegister.SelectedIndex.ToString());
         }
     }
 }
