@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using RestSharp;
 using IrregularMessage.Common;
+using Microsoft.Phone.Info;
 
 namespace IrregularMessage
 {
@@ -29,6 +30,7 @@ namespace IrregularMessage
             //        MessageBox.Show(a.Content);
             //        MessageBox.Show("test");
             //    });
+            txtRegisterUserDeviceId.Text = DeviceStatus.DeviceManufacturer + "|" + DeviceStatus.DeviceName;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,7 +46,43 @@ namespace IrregularMessage
         {
             //0: 登陆
             //1: 注册
-            MessageBox.Show(pivotLoginOrRegister.SelectedIndex.ToString());
+            switch (pivotLoginOrRegister.SelectedIndex.ToString())
+            {
+                case "0":
+                    if (string.IsNullOrEmpty(txtLoginCriteria.Text.Trim())
+                        || string.IsNullOrEmpty(txtLoginPWD.Password.Trim()))
+                        return;
+                    MessageBox.Show("登陆");
+                    break;
+                case "1":
+                    if (string.IsNullOrEmpty(txtRegisterPhoneNum.Text.Trim())
+                        || string.IsNullOrEmpty(txtRegisterPWD.Password.Trim())
+                        || string.IsNullOrEmpty(txtRegisterConfirmPWD.Password.Trim())
+                        || string.IsNullOrEmpty(txtRegisterUserEmail.Text.Trim())
+                        || string.IsNullOrEmpty(txtRegisterUserDeviceId.Text.Trim()))
+                        return;
+                    if (txtRegisterPWD.Password.Equals(txtRegisterConfirmPWD.Password))
+                    {
+                        MessageBox.Show(txtRegisterPhoneNum.Text);
+                    }
+                    else
+                    {
+                        MessageBox.Show(@"密码两次输入不相同，请重新输入");
+                    }
+                    break;
+                default:
+                    MessageBox.Show(@"亲，出现未知错误了哦");
+                    break;
+            }
+        }
+
+        private void pivotLoginOrRegister_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplicationBarIconButton btnLOR = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            if (pivotLoginOrRegister.SelectedIndex == 0)
+                btnLOR.Text = @"登陆";
+            else
+                btnLOR.Text = @"注册";
         }
     }
 }
