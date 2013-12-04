@@ -17,10 +17,10 @@ namespace IMCONTRACT
             , ResponseFormat = WebMessageFormat.Json)]
         List<UserModel> GetUser();
 
-        //[OperationContract]
-        //[WebInvoke(UriTemplate = "User/RegisterUser", Method = "POST"
-        //   , BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
-        //UserModel RegisterUser(UserModel user);
+        [OperationContract]
+        [WebInvoke(UriTemplate = "User/RegisterUser", Method = "POST"
+           , BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        UserModel RegisterUser(UserModel user);
 
         [OperationContract]
         [WebGet(UriTemplate = "User/GetUserByCriteriaKeyByUserPWD?CriteriaKey={CriteriaKey}&UserPWD={UserPWD}", BodyStyle = WebMessageBodyStyle.Bare
@@ -31,5 +31,11 @@ namespace IMCONTRACT
         [WebGet(UriTemplate = "User/GetServerDateTime", BodyStyle = WebMessageBodyStyle.Bare
             , ResponseFormat = WebMessageFormat.Json)]
         UserModel GetServerDateTime();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "User/CheckUserExist", BodyStyle = WebMessageBodyStyle.Bare
+            , ResponseFormat = WebMessageFormat.Json)]
+        string CheckUserExist(string CriteriaKey, string CheckFiled);
+
     }
 }

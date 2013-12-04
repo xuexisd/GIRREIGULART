@@ -6,11 +6,15 @@ DROP TABLE T_USER
 GO
 
 CREATE TABLE [dbo].[T_USER](
-	[USER_ID] [uniqueidentifier] NOT NULL,
-	[USER_PHONE_NUMBER] [nvarchar](20) NOT NULL,
-	[USER_KEY] [nvarchar](50) NULL,
-	[USER_EMAIL] [nvarchar](50) NULL,
+	[USER_ID] [int] IDENTITY(11000,1) NOT NULL,
 	[USER_PWD] [nvarchar](500) NOT NULL,
+	[USER_PHONE_NUMBER] [nvarchar](20) NULL,
+	[USER_NAME] [nvarchar](50) NULL,
+	[USER_EMAIL] [nvarchar](50) NULL,
+	[USER_GENDER] [nvarchar](10) NULL,
+	[USER_HEADER_IMG] [nvarchar](100) NULL,
+	[USER_AREA] [nvarchar](100) NULL,
+	[USER_SIGNATURE] [nvarchar](100) NULL,
 	[USER_DEVICE_ID] [nvarchar](100) NOT NULL,
 	[USER_DEVICE_NAME] [nvarchar](100) NULL,
 	[UPDATE_VERSION] [int] NOT NULL,
@@ -34,28 +38,28 @@ DROP PROCEDURE P_USER_I
 GO
 -- =============================================
 -- Author:		Sunny
--- Create date: 2013/9/12 23:18:09
+-- Create date: 2013/12/3 23:25:07
 -- Description:	Insert
 -- =============================================
 
 CREATE PROCEDURE P_USER_I
 (
-	@USER_ID			uniqueidentifier,
-	@USER_PHONE_NUMBER			nvarchar(20),
-	@USER_KEY			nvarchar(50),
-	@USER_EMAIL			nvarchar(50),
 	@USER_PWD			nvarchar(500),
+	@USER_PHONE_NUMBER			nvarchar(20),
+	@USER_NAME			nvarchar(50),
+	@USER_EMAIL			nvarchar(50),
+	@USER_GENDER			nvarchar(10),
 	@USER_DEVICE_ID			nvarchar(100),
 	@USER_DEVICE_NAME			nvarchar(100)
 )
 AS 
  BEGIN 
  INSERT INTO T_USER(
-	[USER_ID],
-	USER_PHONE_NUMBER,
-	USER_KEY,
-	USER_EMAIL,
 	USER_PWD,
+	USER_PHONE_NUMBER,
+	[USER_NAME],
+	USER_EMAIL,
+	USER_GENDER,
 	USER_DEVICE_ID,
 	USER_DEVICE_NAME,
 	UPDATE_VERSION,
@@ -64,21 +68,23 @@ AS
 	LAST_UPDATED_BY,
 	LAST_UPDATED_TIME)
 VALUES(
-	@USER_ID,
-	@USER_PHONE_NUMBER,
-	@USER_KEY,
-	@USER_EMAIL,
 	@USER_PWD,
+	@USER_PHONE_NUMBER,
+	@USER_NAME,
+	@USER_EMAIL,
+	@USER_GENDER,
 	@USER_DEVICE_ID,
 	@USER_DEVICE_NAME,
 	1,
-	@USER_ID,
+	'ONWER',
 	GETDATE(),
-	@USER_ID,
-	GETDATE())
+	'ONWER',
+	GETDATE()
+	)
 
 END
 GO
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S'))
 DROP PROCEDURE P_USER_S
@@ -102,36 +108,47 @@ DROP PROCEDURE P_USER_U
 GO
 -- =============================================
 -- Author:		Sunny
--- Create date: 2013/9/12 23:18:09
+-- Create date: 2013/12/3 23:25:07
 -- Description:	Updata
 -- =============================================
 
 CREATE PROCEDURE P_USER_U
 (
-	@USER_ID			uniqueidentifier,
-	@USER_PHONE_NUMBER			nvarchar(20),
-	@USER_KEY			nvarchar(50),
-	@USER_EMAIL			nvarchar(50),
+	@USER_ID			int,
 	@USER_PWD			nvarchar(500),
+	@USER_PHONE_NUMBER			nvarchar(20),
+	@USER_NAME			nvarchar(50),
+	@USER_EMAIL			nvarchar(50),
+	@USER_GENDER			nvarchar(10),
+	@USER_HEADER_IMG			nvarchar(100),
+	@USER_AREA			nvarchar(100),
+	@USER_SIGNATURE			nvarchar(100),
 	@USER_DEVICE_ID			nvarchar(100),
 	@USER_DEVICE_NAME			nvarchar(100),
-	@LAST_UPDATED_BY			nvarchar(50)
+	@UPDATE_VERSION			int,
+	@LAST_UPDATED_BY			nvarchar(50),
+	@LAST_UPDATED_TIME			datetime
 )
 AS 
  BEGIN 
  UPDATE T_USER SET 
-	USER_PHONE_NUMBER=@USER_PHONE_NUMBER,
-	USER_KEY=@USER_KEY,
-	USER_EMAIL=@USER_EMAIL,
 	USER_PWD=@USER_PWD,
+	USER_PHONE_NUMBER=@USER_PHONE_NUMBER,
+	[USER_NAME]=@USER_NAME,
+	USER_EMAIL=@USER_EMAIL,
+	USER_GENDER=@USER_GENDER,
+	USER_HEADER_IMG=@USER_HEADER_IMG,
+	USER_AREA=@USER_AREA,
+	USER_SIGNATURE=@USER_SIGNATURE,
 	USER_DEVICE_ID=@USER_DEVICE_ID,
 	USER_DEVICE_NAME=@USER_DEVICE_NAME,
 	UPDATE_VERSION=((SELECT UPDATE_VERSION FROM T_USER WHERE [USER_ID]=@USER_ID) + 1),
 	LAST_UPDATED_BY=@LAST_UPDATED_BY,
 	LAST_UPDATED_TIME=GETDATE()
-WHERE [USER_ID]=@USER_ID
+WHERE USER_ID=@USER_ID
 END
 GO
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_BY_ID'))
 DROP PROCEDURE P_USER_S_BY_ID
@@ -144,7 +161,7 @@ GO
 
 CREATE PROCEDURE P_USER_S_BY_ID
 (
-	@USER_ID			uniqueidentifier
+	@USER_ID			int
 )
 AS 
  BEGIN 
@@ -172,13 +189,39 @@ AS
  BEGIN 
 	SELECT *
 	FROM T_USER
-	WHERE (USER_PHONE_NUMBER = @USER_CRITERIA_KEY OR USER_KEY = @USER_CRITERIA_KEY OR USER_EMAIL = @USER_CRITERIA_KEY)
+	WHERE (USER_PHONE_NUMBER = @USER_CRITERIA_KEY OR [USER_NAME] = @USER_CRITERIA_KEY OR USER_EMAIL = @USER_CRITERIA_KEY)
 		AND USER_PWD = @USER_PWD
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_BY_USER_INFO'))
-DROP PROCEDURE P_USER_S_BY_USER_INFO
+--IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_BY_USER_INFO'))
+--DROP PROCEDURE P_USER_S_BY_USER_INFO
+--GO
+---- =============================================
+---- Author:		Sunny
+---- Create date: 2013/9/12 23:18:09
+---- Description:	Select
+---- =============================================
+
+--CREATE PROCEDURE P_USER_S_BY_USER_INFO
+--(
+--	@USER_PHONE_NUMBER			nvarchar(20),
+--	@USER_KEY			nvarchar(50),
+--	@USER_EMAIL			nvarchar(50)
+--)
+--AS 
+-- BEGIN 
+--	SELECT *
+--	FROM T_USER
+--	WHERE USER_PHONE_NUMBER = @USER_PHONE_NUMBER OR [USER_NAME] = @USER_KEY OR USER_EMAIL = @USER_EMAIL
+--END
+--GO
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'P_USER_S_CHECK_EXIST'))
+DROP PROCEDURE P_USER_S_CHECK_EXIST
 GO
 -- =============================================
 -- Author:		Sunny
@@ -186,19 +229,32 @@ GO
 -- Description:	Select
 -- =============================================
 
-CREATE PROCEDURE P_USER_S_BY_USER_INFO
+CREATE PROCEDURE P_USER_S_CHECK_EXIST
 (
-	@USER_PHONE_NUMBER			nvarchar(20),
-	@USER_KEY			nvarchar(50),
-	@USER_EMAIL			nvarchar(50)
+	@USER_CRITERIA_KEY			nvarchar(50),
+	@CHECK_FILED			nvarchar(500)
 )
 AS 
  BEGIN 
-	SELECT *
-	FROM T_USER
-	WHERE USER_PHONE_NUMBER = @USER_PHONE_NUMBER OR USER_KEY = @USER_KEY OR USER_EMAIL = @USER_EMAIL
+	--SELECT *
+	--FROM T_USER
+	--WHERE USER_PHONE_NUMBER = @USER_PHONE_NUMBER OR [USER_NAME] = @USER_KEY OR USER_EMAIL = @USER_EMAIL
+
+	IF @CHECK_FILED = 'PHONENUMBER'
+	BEGIN
+		SELECT COUNT(1) FROM T_USER WHERE USER_PHONE_NUMBER = @USER_CRITERIA_KEY
+	END
+	
+	IF @CHECK_FILED = 'USERNAME'
+	BEGIN
+		SELECT COUNT(1) FROM T_USER WHERE [USER_NAME] = @USER_CRITERIA_KEY
+	END
+	
+	IF @CHECK_FILED = 'USEREMAIL'
+	BEGIN
+		SELECT COUNT(1) FROM T_USER WHERE USER_EMAIL = @USER_CRITERIA_KEY
+	END
+
 END
 GO
 
-----------------------------------------------------------------------------
-----------------------------------------------------------------------------

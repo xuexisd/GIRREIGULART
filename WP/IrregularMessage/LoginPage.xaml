@@ -41,16 +41,16 @@
             </phone:PivotItem>
             <phone:PivotItem CacheMode="{x:Null}" Header="注册" Margin="0">
                 <Grid x:Name="RegisterPanel" Margin="12,0,12,0">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" Text="手机号码" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
-                    <toolkit:PhoneTextBox Name="txtRegisterPhoneNum" MaxLength="15" Margin="0,30,0,0" PlaceholderText="请输入手机号码" VerticalAlignment="Top" Style="{StaticResource MyTextBoxStyle}" InputScope="TelephoneNumber"></toolkit:PhoneTextBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" Text="账户" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
+                    <toolkit:PhoneTextBox Name="txtRegisterEmail" MaxLength="15" Margin="0,30,0,0" PlaceholderText="请输入Email" VerticalAlignment="Top" Style="{StaticResource MyTextBoxStyle}" InputScope="EmailUserName"></toolkit:PhoneTextBox>
                     <TextBlock HorizontalAlignment="Left" Margin="10,90,0,0" Text="密码" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
                     <toolkit:PhonePasswordBox Name="txtRegisterPWD" MaxLength="30" PlaceholderText="请输入密码" Margin="0,110,0,0" VerticalAlignment="Top" Style="{StaticResource MyPasswordBoxStyle}"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,170,0,0" Text="重复密码" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
                     <toolkit:PhonePasswordBox Name="txtRegisterConfirmPWD" MaxLength="30" PlaceholderText="请再次输入密码" Margin="0,190,0,0" VerticalAlignment="Top" Style="{StaticResource MyPasswordBoxStyle}"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,250,0,0" Text="邮箱Email" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
-                    <toolkit:PhoneTextBox Name="txtRegisterUserEmail" MaxLength="30" PlaceholderText="请输入邮箱(Email)地址" Margin="0,270,0,0" VerticalAlignment="Top" Style="{StaticResource MyTextBoxStyle}" InputScope="EmailUserName"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,330,0,0" Text="设备信息" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
-                    <toolkit:PhoneTextBox Name="txtRegisterUserDeviceId" MaxLength="30" Margin="0,350,0,0" VerticalAlignment="Top" Style="{StaticResource MyTextBoxStyle}"/>
+                    <!--<TextBlock HorizontalAlignment="Left" Margin="10,250,0,0" Text="邮箱Email" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
+                    <toolkit:PhoneTextBox Name="txtRegisterUserEmail" MaxLength="30" PlaceholderText="请输入邮箱(Email)地址" Margin="0,270,0,0" VerticalAlignment="Top" Style="{StaticResource MyTextBoxStyle}" InputScope="EmailUserName"/>-->
+                    <TextBlock HorizontalAlignment="Left" Margin="10,250,0,0" Text="设备信息" VerticalAlignment="Top" Style="{StaticResource MylblStyle}"/>
+                    <toolkit:PhoneTextBox Name="txtRegisterUserDeviceId" MaxLength="30" Margin="0,270,0,0" VerticalAlignment="Top" Style="{StaticResource MyTextBoxStyle}" IsReadOnly="True"/>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

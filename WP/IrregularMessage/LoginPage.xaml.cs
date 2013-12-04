@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using RestSharp;
 using IrregularMessage.Common;
 using Microsoft.Phone.Info;
+using System.Text.RegularExpressions;
 
 namespace IrregularMessage
 {
@@ -55,15 +56,38 @@ namespace IrregularMessage
                     MessageBox.Show("登陆");
                     break;
                 case "1":
-                    if (string.IsNullOrEmpty(txtRegisterPhoneNum.Text.Trim())
+
+
+
+
+                    //Regex rPhoneNumber = new Regex(@"d{15}");
+                    //Regex rEmail = new Regex(@"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+                    //if (!rPhoneNumber.IsMatch(txtRegisterPhoneNumOrEmail.Text.Trim()))
+                    //{
+                    //    MessageBox.Show("请输入正确的手机号");
+                    //    return;
+                    //}
+                    //if (!rEmail.IsMatch(txtRegisterPhoneNumOrEmail.Text.Trim()))
+                    //{
+                    //    MessageBox.Show("请输入正确的Email");
+                    //    return;
+                    //}
+
+
+
+
+
+
+
+                    if (string.IsNullOrEmpty(txtRegisterEmail.Text.Trim())
                         || string.IsNullOrEmpty(txtRegisterPWD.Password.Trim())
                         || string.IsNullOrEmpty(txtRegisterConfirmPWD.Password.Trim())
-                        || string.IsNullOrEmpty(txtRegisterUserEmail.Text.Trim())
+                        //|| string.IsNullOrEmpty(txtRegisterUserEmail.Text.Trim())
                         || string.IsNullOrEmpty(txtRegisterUserDeviceId.Text.Trim()))
                         return;
                     if (txtRegisterPWD.Password.Equals(txtRegisterConfirmPWD.Password))
                     {
-                        MessageBox.Show(txtRegisterPhoneNum.Text);
+                        MessageBox.Show(txtRegisterEmail.Text);
                     }
                     else
                     {
