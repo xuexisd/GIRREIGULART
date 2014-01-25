@@ -63,7 +63,7 @@ namespace IrregularMessage
                     //        });
                     //    });
                     //txtTest.Text = "insert success!";
-                    NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 }
             }
         }
